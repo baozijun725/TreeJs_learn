@@ -67,54 +67,23 @@ const gui = new GUI();
 //创建纹理添加器
 let textureLoader = new THREE.TextureLoader();
 //加载纹理
-let texture = textureLoader.load(
-  "./texture/watercover/CityNewYork002_COL_VAR1_1K.png"
-);
+let texture = textureLoader.load('./texture/watercover/CityNewYork002_COL_VAR1_1K.png')
 //加载ao贴图(让边缘更亮一些)
-let aoMap = textureLoader.load("./texture/watercover/CityNewYork002_AO_1K.jpg"); 
-
+let  aoMap = textureLoader.load('./texture/watercover/CityNewYork002_AO_1K.jpg')
 //设置透明度贴图
-let alphaMap = textureLoader.load("./texture/door/height.jpg");
-
-//设置光照贴图
-let lightMap = textureLoader.load("./texture/colors.png");
-
-// 高光贴图
-let specularMap = textureLoader.load(
-  "./texture/watercover/CityNewYork002_GLOSS_1K.jpg"
-);
-
-
-//rgbeLoader加载
-let rgbeLoader = new RGBELoader()
-rgbeLoader.load('./texture/Alex_Hart-Nature_Lab_Bones_2k.hdr',(envMap)=>{
-  //设置球形贴图
-  envMap.mapping = THREE.EquirectangularReflectionMapping;
-  //设置环境贴图
-  scene.background = envMap
-  //场景设置环境贴图
-  scene.environment = envMap
-  //给平面的材质设置环境贴图
-  planeMaterial.environment = envMap
-})
-
-
+let alphaMap = textureLoader.load('./texture/door/height.jpg')
 let planeGeomoetry = new THREE.PlaneGeometry(1, 1);
 let planeMaterial = new THREE.MeshBasicMaterial({
   // color: 0xffff00,
-  map: texture,
-  transparent: true, //设置透明度
-  aoMap: aoMap,
-  aoMapIntensity: 1, //设置透明度额强度，默认是1
-  // alphaMap: alphaMap, //透明度贴图
-  // lightMap:lightMap,//光照贴图
-  reflectivity :0.5, 
-  specularMap:specularMap//高光贴图（比较亮的地方）
+  map:texture,
+  transparent:true,//设置透明度
+  aoMap:aoMap,
 });
-let plane = new THREE.Mesh(planeGeomoetry, planeMaterial);
-scene.add(plane);
+let plane = new THREE.Mesh(planeGeomoetry,planeMaterial)
+scene.add(plane)
 // gui.add(planeMaterial,'transparent','透明')
-gui.add(planeMaterial, "aoMapIntensity").min(0).max(1).name("ao贴图");
+gui.add(planeMaterial,'aoMapIntensity').min(0).max(1).name('ao贴图')
+
 </script>
 
 <template>
