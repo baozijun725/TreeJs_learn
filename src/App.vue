@@ -70,8 +70,14 @@ let textureLoader = new THREE.TextureLoader();
 let texture = textureLoader.load(
   "./texture/watercover/CityNewYork002_COL_VAR1_1K.png"
 );
+
+//添加纹理的颜色空间
+texture.colorSpace = THREE.SRGBColorSpace;
+// texture.colorSpace = THREE.LinearSRGBColorSpace;
+// texture.colorSpace = THREE.NoColorSpace;
+
 //加载ao贴图(让边缘更亮一些)
-let aoMap = textureLoader.load("./texture/watercover/CityNewYork002_AO_1K.jpg"); 
+let aoMap = textureLoader.load("./texture/watercover/CityNewYork002_AO_1K.jpg");
 
 //设置透明度贴图
 let alphaMap = textureLoader.load("./texture/door/height.jpg");
@@ -84,20 +90,18 @@ let specularMap = textureLoader.load(
   "./texture/watercover/CityNewYork002_GLOSS_1K.jpg"
 );
 
-
 //rgbeLoader加载
-let rgbeLoader = new RGBELoader()
-rgbeLoader.load('./texture/Alex_Hart-Nature_Lab_Bones_2k.hdr',(envMap)=>{
+let rgbeLoader = new RGBELoader();
+rgbeLoader.load("./texture/Alex_Hart-Nature_Lab_Bones_2k.hdr", (envMap) => {
   //设置球形贴图
   envMap.mapping = THREE.EquirectangularReflectionMapping;
   //设置环境贴图
-  scene.background = envMap
+  scene.background = envMap;
   //场景设置环境贴图
-  scene.environment = envMap
+  scene.environment = envMap;
   //给平面的材质设置环境贴图
-  planeMaterial.environment = envMap
-})
-
+  planeMaterial.environment = envMap;
+});
 
 let planeGeomoetry = new THREE.PlaneGeometry(1, 1);
 let planeMaterial = new THREE.MeshBasicMaterial({
@@ -108,13 +112,23 @@ let planeMaterial = new THREE.MeshBasicMaterial({
   aoMapIntensity: 1, //设置透明度额强度，默认是1
   // alphaMap: alphaMap, //透明度贴图
   // lightMap:lightMap,//光照贴图
-  reflectivity :0.5, 
-  specularMap:specularMap//高光贴图（比较亮的地方）
+  reflectivity: 0.5,
+  specularMap: specularMap, //高光贴图（比较亮的地方）
 });
 let plane = new THREE.Mesh(planeGeomoetry, planeMaterial);
 scene.add(plane);
 // gui.add(planeMaterial,'transparent','透明')
 gui.add(planeMaterial, "aoMapIntensity").min(0).max(1).name("ao贴图");
+
+//更改颜色空间
+gui
+  .add(texture, "colocSpace", {
+    sRGB: THREE.SRGBColorSpace,
+    Linear: THREE.LinearSRGBColorSpace,
+  })
+  .onChange(() => {
+    texture.needsUpdate = true;
+  });
 </script>
 
 <template>
