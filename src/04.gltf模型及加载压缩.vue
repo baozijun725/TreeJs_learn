@@ -71,53 +71,6 @@ let params = {};
 // 创建GUI
 const gui = new GUI();
 
-// 创建场景fog
-scene.fog = new THREE.Fog(0x999999, 0.1, 50);
-// 创建场景指数fog
-// scene.fog = new THREE.FogExp2(0x999999, 0.1);
-scene.background = new THREE.Color(0x999999);
-
-// 实例化加载器gltf
-const gltfLoader = new GLTFLoader();
-// 加载模型
-gltfLoader.load(
-  // 模型路径
-  "./model/Duck.glb",
-  // 加载完成回调
-  (gltf) => {
-    console.log(gltf);
-    scene.add(gltf.scene);
-  }
-);
-
-//实例化加载器
-const dracoLoader = new DRACOLoader()
-//设置draco路径
-dracoLoader.setDecoderPath("./draco/");
-//设置gltf加载器draco解码器
-gltfLoader.setDRACOLoader(dracoLoader)
-
-// 加载模型
-gltfLoader.load(
-  // 模型路径
-  "./model/city.glb",
-  // 加载完成回调
-  (gltf) => {
-    console.log(gltf);
-    scene.add(gltf.scene);
-  }
-);
-
-
-//加载环境贴图
-let rgbeLoader = new RGBELoader();
-rgbeLoader.load("./texture/Alex_Hart-Nature_Lab_Bones_2k.hdr", (envMap) => {
-  //环境贴图是球面全景映射
-  envMap.mapping = THREE.EquirectangularReflectionMapping
-  //设置环境贴图
-  scene.environment = envMap;
-});
-
 </script>
 
 <template>
